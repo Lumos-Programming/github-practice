@@ -24,8 +24,13 @@ Gitコマンドを暗記することではなく、
 > Branchを間違える・Commitを間違える・Conflictを起こす・Commitを取り消す。
 > 壊し方と直し方の両方を、実際の開発Repositoryに入る前に経験してください。
 
-このリポジトリでは `main` がBranch Protectionで保護されています。
-`main` への直接Pushは**GitHubに拒否されます**。必ずPull Request経由で変更してください。
+`main` への直接Pushは禁止です。必ずPull Request経由で変更してください。
+
+> ⚠️ **このリポジトリは現在、技術的には `main` への直接Pushができてしまいます。**
+> Branch Protectionを設定したいのですが、Private RepositoryかつGitHub Freeプランのため
+> 現時点では有効化できません（[docs/admin-setup.md](docs/admin-setup.md) に詳細）。
+> **GitHubが止めてくれないので、ルールとして各自が守ってください。**
+> 誤ってPushしてしまった場合は、隠さずに管理者へ報告してください。
 
 ---
 

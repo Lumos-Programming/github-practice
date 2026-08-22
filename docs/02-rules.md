@@ -55,14 +55,21 @@ git switch -c feature/example
 
 という流れで変更します。
 
-> このTraining Repositoryでは、`main` にBranch Protectionが設定されています。
-> `main` への直接Pushを試すと、GitHubが以下のように拒否します。
+実務のRepositoryでは、多くの場合 **Branch Protection** が設定されており、
+`main` への直接Pushを試すとGitHubが以下のように拒否します。
+
+```text
+! [remote rejected] main -> main (protected branch hook declined)
+```
+
+> ⚠️ **このTraining Repositoryでは、Branch Protectionが有効になっていません。**
+> Private RepositoryかつGitHub Freeプランのため、現時点では設定できないためです。
+> つまり `main` へ直接Pushすると **成功してしまいます。**
 >
-> ```text
-> ! [remote rejected] main -> main (protected branch hook declined)
-> ```
+> **絶対に試さないでください。** ここはGitHubが守ってくれない状態です。
+> 誤ってPushしてしまった場合は、自分で `reset` や `revert` を試す前に管理者へ報告してください。
 >
-> 一度わざと試してみてください。これが実務での「守られている状態」です。
+> 管理者向けの有効化手順は [admin-setup.md](admin-setup.md) にあります。
 
 ---
 

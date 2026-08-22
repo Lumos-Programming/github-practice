@@ -176,28 +176,30 @@ git push -u origin training/taro
 
 ---
 
-## Step 11.5: （任意）mainへ直接Pushを試してみる
+## Step 11.5: mainへ直接Pushしてはいけない（実演はしません）
 
-ルールが「お願い」ではなく「仕組み」で守られていることを体験しておきます。
-
-```bash
-git switch main
-git commit --allow-empty -m "Test protected branch"
-git push
-```
-
-次のように拒否されれば成功です。
+実務のRepositoryでは通常 **Branch Protection** が設定されていて、`main` へ直接Pushすると
+GitHubがこう拒否します。
 
 ```text
 ! [remote rejected] main -> main (protected branch hook declined)
 ```
 
-**必ず後片付けをしてください。**
+ルールが「お願い」ではなく「仕組み」で守られている状態です。
+
+> ⚠️ **このRepositoryではBranch Protectionが有効になっていません。**
+> Private RepositoryかつGitHub Freeプランのため、現時点では設定できないためです。
+> つまりここで直接Pushを試すと **本当に成功してしまい、研修環境が壊れます。**
+>
+> **この確認はスキップしてください。** 管理者が有効化したら、改めて試して構いません。
+
+代わりに、`git status` で自分が `main` にいないことを確認する癖をつけてください。
 
 ```bash
-git reset --hard origin/main
-git switch training/<your-name>
+git branch
 ```
+
+`* training/<your-name>` に `*` が付いていればOKです。
 
 ---
 
