@@ -8,19 +8,20 @@
 #
 # 参考: https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
 #
-# ⚠️ TODO(管理者): 下の <REVIEWER> を実在するTeam（@Lumos-Programming/xxx）
-#    または個人アカウント（@username）に書き換えてください。
-#    存在しない指定はGitHub上で警告になり、自動アサインが機能しません。
+# 注: Code Ownerには、このRepositoryへのWrite以上の権限が必要です。
+#     現状このRepositoryはTeamではなく個人Collaboratorで権限管理しているため、
+#     Team（@Lumos-Programming/xxx）ではなく個人アカウントを指定しています。
+#     将来Teamに権限を付与した場合は、Team指定に切り替えても構いません。
 
 # 研修の教材そのもの。勝手に変更されないよう管理者をオーナーにする
-/README.md              @Lumos-Programming/<REVIEWER>
-/docs/                  @Lumos-Programming/<REVIEWER>
-/exercises/             @Lumos-Programming/<REVIEWER>
-/.github/               @Lumos-Programming/<REVIEWER>
-/scripts/               @Lumos-Programming/<REVIEWER>
+/README.md              @Shion1305 @Tivo0921
+/docs/                  @Shion1305 @Tivo0921
+/exercises/             @Shion1305 @Tivo0921
+/.github/               @Shion1305 @Tivo0921
+/scripts/               @Shion1305 @Tivo0921
 
 # Conflict実習用のファイル。実習の仕込みが壊れると次の研修に影響するため保護する
-/conflict-training/     @Lumos-Programming/<REVIEWER>
+/conflict-training/     @Shion1305 @Tivo0921
 
 # members/ は研修者が自由に追加する場所なので、あえてオーナーを設定しない
 # （研修者同士でReviewし合うのが実習2の目的）

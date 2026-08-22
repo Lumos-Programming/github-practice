@@ -34,7 +34,7 @@ git commit -m "Add Git/GitHub training materials"
 git push -u origin main
 ```
 
-### 1. Labelを作る
+### 1. Labelを作る ✅ 設定済み
 
 Issue Templateが `training` / `question` Labelを使います。**存在しないと付与されません。**
 
@@ -43,19 +43,21 @@ gh label create training --color 0E8A16 --description "Git/GitHub研修の進行
 gh label create question --color D876E3 --description "研修中の質問" --force
 ```
 
-### 2. CODEOWNERS を編集する
+### 2. CODEOWNERS を編集する ✅ 設定済み
 
-[`.github/CODEOWNERS`](../.github/CODEOWNERS) の `<REVIEWER>` を、実在するTeamまたは個人アカウントに置き換えてください。
-存在しない指定は警告になり、自動アサインが機能しません。
+[`.github/CODEOWNERS`](../.github/CODEOWNERS) のオーナーは `@Shion1305 @Tivo0921` になっています。
+変更する場合は、以下に注意してください。
+
+- **Code OwnerにはこのRepositoryへのWrite以上の権限が必要です。**
+  権限のないアカウントやTeamを指定しても、自動アサインは機能しません。
+- 現状このRepositoryはTeamではなく **個人Collaborator** で権限管理しています。
+  そのため `@Lumos-Programming/lusy` のようなTeam指定は**使えません**。
+  Teamを使いたい場合は、先にSettings → Collaborators and teams からTeamに権限を付与してください。
+- なお `lusy` Teamには研修者本人が含まれます。教材のオーナーに指定すると
+  「研修者が教材の変更を自分で承認できる」状態になるため、避けてください。
 
 ```text
-/docs/    @Lumos-Programming/core
-```
-
-個人アカウントを使う場合:
-
-```text
-/docs/    @your-github-account
+/docs/    @Shion1305 @Tivo0921
 ```
 
 ### 3. Actions を有効にする
