@@ -7,7 +7,7 @@
 
 ---
 
-Message: Hello
+Message: Hello from Seed
 
 ---
 
