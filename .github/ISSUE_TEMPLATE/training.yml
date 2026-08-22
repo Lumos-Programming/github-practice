@@ -1,0 +1,163 @@
+name: "Git/GitHub 研修 進行表"
+description: "新規メンバー1名につき1件作成してください（管理者が作成します）"
+title: "Git/GitHub 研修: <名前>"
+labels: ["training"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## このIssueがあなたの進行表です
+
+        上から順にチェックを付けながら進めてください。
+        分からないことがあれば、**このIssueにコメントして質問**して構いません。
+
+        - 全体の流れ: [README](https://github.com/Lumos-Programming/github-practice/blob/main/README.md)
+        - 実習一覧: [exercises/](https://github.com/Lumos-Programming/github-practice/blob/main/exercises/README.md)
+        - 困ったとき: [docs/06-troubleshooting.md](https://github.com/Lumos-Programming/github-practice/blob/main/docs/06-troubleshooting.md)
+
+        > このRepositoryでは **意図的に失敗して構いません。**
+        > 壊し方と直し方の両方を、実際の開発Repositoryに入る前に経験してください。
+
+  - type: input
+    id: trainee
+    attributes:
+      label: 研修者
+      description: GitHubアカウントを @ 付きで入力してください
+      placeholder: "@taro-yamada"
+    validations:
+      required: true
+
+  - type: input
+    id: slug
+    attributes:
+      label: ファイル名に使う名前
+      description: |
+        `members/<ここ>.md` として使います。半角小文字・数字・ハイフンのみ。
+      placeholder: "taro"
+    validations:
+      required: true
+
+  - type: input
+    id: pair
+    attributes:
+      label: Conflict実習のペア番号（任意）
+      description: "2人1組で実習6 Part Bを行う場合のみ。使用ファイル: conflict-training/pair-<番号>.md"
+      placeholder: "01"
+    validations:
+      required: false
+
+  - type: textarea
+    id: checklist
+    attributes:
+      label: 進行表
+      description: そのまま作成してください（編集不要です）
+      value: |
+        ### Step 0. 事前準備 — [docs/03-setup.md](https://github.com/Lumos-Programming/github-practice/blob/main/docs/03-setup.md)
+
+        - [ ] `git --version` でGit 2.23以上を確認した
+        - [ ] `git config --global user.name` を設定した
+        - [ ] `git config --global user.email` を設定した（GitHubに登録済みのアドレス）
+        - [ ] `git config --global core.editor` を設定した
+        - [ ] GitHubの認証を通した（`gh auth login` またはSSH / PAT）
+
+        ### Step 1. 座学（読むだけ・15分）
+
+        - [ ] [01 Concepts](https://github.com/Lumos-Programming/github-practice/blob/main/docs/01-concepts.md) を読んだ（GitとGitHubの違い / 用語）
+        - [ ] [02 Rules](https://github.com/Lumos-Programming/github-practice/blob/main/docs/02-rules.md) を読んだ（Lumosの基本ルール6つ）
+
+        ### Step 2. 実習1: CloneからPull Requestまで — [手順](https://github.com/Lumos-Programming/github-practice/blob/main/exercises/01-clone-to-pr.md)
+
+        - [ ] `git clone` した
+        - [ ] `git status` / `git branch` で現在地を確認した
+        - [ ] `git switch main` → `git pull` でmainを最新化した
+        - [ ] `git switch -c training/<name>` でBranchを作成した
+        - [ ] `members/<name>.md` を作成した
+        - [ ] `git diff` で「新規ファイルは表示されない」ことを確認した
+        - [ ] `git add` した
+        - [ ] `git diff --staged` で中身を確認した
+        - [ ] `git commit` した
+        - [ ] `git log --oneline` で履歴を確認した
+        - [ ] `git push -u origin training/<name>` した
+        - [ ] （任意）`main` への直接Pushが拒否されることを確認し、後片付けした
+        - [ ] Pull Requestを作成した（テンプレートを埋めた）
+        - [ ] CI（Training Check）が緑になった
+
+        ### Step 3. 実習2: Pull Request Review — [手順](https://github.com/Lumos-Programming/github-practice/blob/main/exercises/02-review.md)
+
+        - [ ] 他メンバーのPull RequestをFiles changedで読んだ
+        - [ ] 行コメントを1件以上書いた
+        - [ ] Reviewを提出した（Comment / Request changes）
+        - [ ] 自分が受けた指摘に対して、同じBranchで修正・追加Pushした
+        - [ ] 指摘コメントに返信し、Resolve conversation した
+        - [ ] Approveをもらい、自分のPull RequestをMergeした
+        - [ ] Remoteの作業Branchを削除した（Delete branch）
+        - [ ] `git branch -d` で手元のBranchも削除した
+
+        ### Step 4. 実習3: PullとFetch — [手順](https://github.com/Lumos-Programming/github-practice/blob/main/exercises/03-pull-fetch.md)
+
+        - [ ] `git fetch` の前後で `git status` の表示が変わることを確認した
+        - [ ] `git log --oneline main..origin/main` で取り込む前に差分を見た
+        - [ ] `git branch -a` でRemote Branchを確認した
+        - [ ] `git pull` して他メンバーのファイルが増えたことを確認した
+        - [ ] `git log --oneline --graph --all` でBranchの分岐と合流を見た
+        - [ ] fetchとpullの違いを自分の言葉で説明できる
+
+        ### Step 5. 実習4: 変更を取り消す — [手順](https://github.com/Lumos-Programming/github-practice/blob/main/exercises/04-restore.md)
+
+        - [ ] `git restore <file>` で編集内容が消えることを確認した
+        - [ ] `git restore --staged <file>` でStagingだけ外れ、編集は残ることを確認した
+        - [ ] 2つの違いを説明できる
+
+        ### Step 6. 実習5: Stash — [手順](https://github.com/Lumos-Programming/github-practice/blob/main/exercises/05-stash.md)
+
+        - [ ] `git stash` で変更を退避した
+        - [ ] 退避中に別Branchへ移動できることを確認した
+        - [ ] `git stash list` で一覧を見た
+        - [ ] `git stash pop` で変更が戻ることを確認した
+
+        ### Step 7. 実習6: Conflict — [手順](https://github.com/Lumos-Programming/github-practice/blob/main/exercises/06-conflict.md)
+
+        - [ ] Part A: `git merge origin/seed/conflict` でConflictを発生させた
+        - [ ] `git status` を読んで、次にすべきことを自分で判断した
+        - [ ] Conflict Markerの意味（HEAD側 / 取り込む側）を理解した
+        - [ ] 手で内容を修正し、マーカーを3本とも削除した
+        - [ ] `git add` → `git commit --no-edit` で解消を完了した
+        - [ ] `git log --oneline --graph --all` の出力をこのIssueにコメントで貼った
+        - [ ] 練習Branchを削除した（Local / Remote 両方）
+        - [ ] `git merge --abort` の存在を知った
+        - [ ] （任意）Part B: ペアでPull Request経由のConflictを解消した
+
+        ### Step 8. 実習7: Commitを取り消す — [手順](https://github.com/Lumos-Programming/github-practice/blob/main/exercises/07-undo-commit.md)
+
+        - [ ] `git revert` で打ち消しCommitが作られることを確認した
+        - [ ] `git reset --soft HEAD~1` でCommitを取り消し、変更が残ることを確認した
+        - [ ] `git reset --hard HEAD~1` で変更ごと消えることを確認した
+        - [ ] `git reflog` から復旧できることを確認した
+        - [ ] revertとresetの使い分けを説明できる
+
+        ### Step 9. 仕上げ
+
+        - [ ] [05 Conventions](https://github.com/Lumos-Programming/github-practice/blob/main/docs/05-conventions.md) を読んだ（Commit / Branch / PR / Review の書き方）
+        - [ ] [06 Troubleshooting](https://github.com/Lumos-Programming/github-practice/blob/main/docs/06-troubleshooting.md) を読んだ（危険な操作を把握した）
+        - [ ] 不要なBranchをすべて削除した（`git branch -a` で確認）
+        - [ ] 下の「振り返り」を書いた
+    validations:
+      required: true
+
+  - type: textarea
+    id: retrospective
+    attributes:
+      label: 振り返り（研修の最後に記入）
+      description: 完了時に編集して記入してください。次回以降の研修の改善に使います。
+      value: |
+        - 一番つまずいたところ:
+        - 説明が分かりにくかったページ:
+        - まだ不安な操作:
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        すべてチェックが付いたら、このIssueを **Close** して研修完了です。お疲れさまでした。

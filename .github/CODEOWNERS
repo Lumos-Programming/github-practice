@@ -1,0 +1,26 @@
+# CODEOWNERS
+#
+# ここに書かれたパスが変更されたPull Requestには、
+# 対応するオーナーが自動でReviewerにアサインされます。
+#
+# Branch Protectionで「Require review from Code Owners」を有効にすると、
+# オーナーのApproveがないとMergeできなくなります。
+#
+# 参考: https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+#
+# ⚠️ TODO(管理者): 下の <REVIEWER> を実在するTeam（@Lumos-Programming/xxx）
+#    または個人アカウント（@username）に書き換えてください。
+#    存在しない指定はGitHub上で警告になり、自動アサインが機能しません。
+
+# 研修の教材そのもの。勝手に変更されないよう管理者をオーナーにする
+/README.md              @Lumos-Programming/<REVIEWER>
+/docs/                  @Lumos-Programming/<REVIEWER>
+/exercises/             @Lumos-Programming/<REVIEWER>
+/.github/               @Lumos-Programming/<REVIEWER>
+/scripts/               @Lumos-Programming/<REVIEWER>
+
+# Conflict実習用のファイル。実習の仕込みが壊れると次の研修に影響するため保護する
+/conflict-training/     @Lumos-Programming/<REVIEWER>
+
+# members/ は研修者が自由に追加する場所なので、あえてオーナーを設定しない
+# （研修者同士でReviewし合うのが実習2の目的）

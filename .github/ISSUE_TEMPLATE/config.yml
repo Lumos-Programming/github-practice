@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 実習の手順を見る
+    url: https://github.com/Lumos-Programming/github-practice/blob/main/exercises/README.md
+    about: 実習1〜7の手順はこちらです。
+  - name: 困ったときの確認順序
+    url: https://github.com/Lumos-Programming/github-practice/blob/main/docs/06-troubleshooting.md
+    about: Gitで詰まったら、コマンドを打つ前にまずこちらを読んでください。
+  - name: コマンド早見表
+    url: https://github.com/Lumos-Programming/github-practice/blob/main/docs/99-cheatsheet.md
+    about: よく使うコマンドの一覧です。

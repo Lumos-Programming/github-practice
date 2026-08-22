@@ -1,0 +1,144 @@
+name: Training Check
+
+# 研修用の自動チェックです。
+# Pull Requestを作ると自動で走り、失敗すると赤いバツが付きます。
+# 「CIが落ちたら直して再Pushする」という実務のループを体験するためのものです。
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: 研修ルールのチェック
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # ------------------------------------------------------------------
+      # 1. Commitしてはいけないファイルが含まれていないか
+      # ------------------------------------------------------------------
+      - name: 禁止ファイルのチェック
+        run: |
+          set -uo pipefail
+          PATTERN='(^|/)(\.env(\..*)?|credentials\.json|id_rsa|\.DS_Store|Thumbs\.db)$|\.(pem|key|p12|pfx)$|(^|/)node_modules/'
+          HITS=$(git ls-files | grep -E "$PATTERN" || true)
+          if [ -n "$HITS" ]; then
+            echo "::error::Commitしてはいけないファイルが含まれています"
+            echo ""
+            echo "以下のファイルをRepositoryから削除してください:"
+            echo "$HITS" | sed 's/^/  - /'
+            echo ""
+            echo "直し方:"
+            echo "  git rm --cached <file>    # Gitの管理から外す（手元のファイルは残る）"
+            echo "  echo '<file>' >> .gitignore"
+            echo "  git add .gitignore"
+            echo "  git commit -m 'Remove committed secret file'"
+            echo "  git push"
+            echo ""
+            echo "詳しくは docs/02-rules.md の Rule 6 を読んでください。"
+            exit 1
+          fi
+          echo "OK: 禁止ファイルはありません"
+
+      # ------------------------------------------------------------------
+      # 2. Secretらしき文字列が書かれていないか
+      #    （docs/ と exercises/ は解説で例を載せているため対象外）
+      # ------------------------------------------------------------------
+      - name: Secret文字列のチェック
+        run: |
+          set -uo pipefail
+          TARGETS=""
+          [ -d members ] && TARGETS="$TARGETS members"
+          [ -d conflict-training ] && TARGETS="$TARGETS conflict-training"
+          if [ -z "$TARGETS" ]; then
+            echo "OK: チェック対象がありません"
+            exit 0
+          fi
+
+          PATTERN='(API_?KEY|SECRET|PASSWORD|PASSWD|ACCESS_?KEY|PRIVATE_?KEY|AUTH_?TOKEN|ACCESS_?TOKEN)[[:space:]]*[:=][[:space:]]*[^[:space:]]|AKIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9]{20,}|xox[baprs]-[A-Za-z0-9-]{10,}|-----BEGIN [A-Z ]*PRIVATE KEY-----'
+          HITS=$(grep -rInE "$PATTERN" $TARGETS || true)
+          if [ -n "$HITS" ]; then
+            echo "::error::Secretらしき文字列が含まれています"
+            echo ""
+            echo "$HITS" | sed 's/^/  /'
+            echo ""
+            echo "本物のSecretを書いてしまった場合:"
+            echo "  1. まず、そのKey/Tokenを発行元で無効化（rotate）してください"
+            echo "  2. ファイルから削除してCommit・Pushしてください"
+            echo "  ※ ファイルを消してもGitの履歴には残ります。無効化が最優先です。"
+            echo ""
+            echo "詳しくは docs/02-rules.md の Rule 6 を読んでください。"
+            exit 1
+          fi
+          echo "OK: Secretらしき文字列はありません"
+
+      # ------------------------------------------------------------------
+      # 3. Conflict Markerが残っていないか
+      # ------------------------------------------------------------------
+      - name: Conflict Markerのチェック
+        run: |
+          set -uo pipefail
+          TARGETS=""
+          [ -d members ] && TARGETS="$TARGETS members"
+          [ -d conflict-training ] && TARGETS="$TARGETS conflict-training"
+          if [ -z "$TARGETS" ]; then
+            echo "OK: チェック対象がありません"
+            exit 0
+          fi
+
+          HITS=$(grep -rInE '^(<{7}|>{7})' $TARGETS || true)
+          if [ -n "$HITS" ]; then
+            echo "::error::Conflict Markerが残っています"
+            echo ""
+            echo "$HITS" | sed 's/^/  /'
+            echo ""
+            echo "Conflict解消時に <<<<<<< ======= >>>>>>> の3本すべてを削除し忘れています。"
+            echo "該当行を修正して、もう一度 add / commit / push してください。"
+            echo ""
+            echo "詳しくは exercises/06-conflict.md の Step 7 を読んでください。"
+            exit 1
+          fi
+          echo "OK: Conflict Markerはありません"
+
+      # ------------------------------------------------------------------
+      # 4. members/ のファイル名が規約どおりか
+      # ------------------------------------------------------------------
+      - name: members/ のファイル名チェック
+        run: |
+          set -uo pipefail
+          BAD=""
+          # ファイル名にスペースが含まれていても壊れないよう -z で読む
+          while IFS= read -r -d '' f; do
+            base=$(basename "$f")
+            # README.md と _template.md は例外
+            if [ "$base" = "README.md" ] || [ "$base" = "_template.md" ]; then
+              continue
+            fi
+            if ! printf '%s' "$f" | grep -qE '^members/[a-z0-9][a-z0-9-]*\.md$'; then
+              BAD="${BAD}  - ${f}"$'\n'
+            fi
+          done < <(git ls-files -z 'members/*')
+
+          if [ -n "$BAD" ]; then
+            echo "::error::members/ のファイル名が規約に合っていません"
+            echo ""
+            printf '%s' "$BAD"
+            echo ""
+            echo "ルール: members/<name>.md"
+            echo "  - 半角小文字・数字・ハイフンのみ"
+            echo "  - 大文字 / スペース / 日本語 / アンダースコアは使えません"
+            echo "  - サブディレクトリは作らないでください"
+            echo ""
+            echo "直し方:"
+            echo "  git mv 'members/Taro Yamada.md' members/taro-yamada.md"
+            echo "  git commit -m 'Fix member file name'"
+            echo "  git push"
+            exit 1
+          fi
+          echo "OK: ファイル名は規約どおりです"
+
+      - name: 完了
+        run: echo "すべてのチェックを通過しました。Reviewを依頼してください。"
