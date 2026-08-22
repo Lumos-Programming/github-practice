@@ -78,7 +78,7 @@ body:
         - [ ] `git commit` した
         - [ ] `git log --oneline` で履歴を確認した
         - [ ] `git push -u origin training/<name>` した
-        - [ ] （任意）`main` への直接Pushが拒否されることを確認し、後片付けした
+        - [ ] `main` へ直接Pushしてはいけない理由を理解した（このRepositoryでは実演しません）
         - [ ] Pull Requestを作成した（テンプレートを埋めた）
         - [ ] CI（Training Check）が緑になった
 

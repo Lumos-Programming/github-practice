@@ -66,7 +66,35 @@ Settings → Actions → General → 「Allow all actions and reusable workflows
 
 Pull Requestを1件作って、**Training Check** が走ることを確認してください。
 
-### 4. Branch Protection を設定する
+### 4. Branch Protection を設定する ⛔ 現在は設定できません
+
+> **状況（2026-08-22 時点）**
+>
+> Organization `Lumos-Programming` は **GitHub Free プラン**、このRepositoryは **Private** です。
+> この組み合わせでは Branch Protection も Rulesets も利用できません。
+> API から設定を試みると、以下が返ります。
+>
+> ```json
+> {"message": "Upgrade to GitHub Pro or make this repository public to enable this feature.", "status": "403"}
+> ```
+>
+> **有効化するには、次のどちらかが必要です。**
+>
+> | 方法 | 影響 |
+> |---|---|
+> | **A. Repositoryを Public にする** | 費用なしで即座に有効化できる。ただし `members/` の内容と全Commit履歴が世界に公開される。個人情報を書かせない運用が前提 |
+> | **B. GitHub Team プランへアップグレード** | Privateのまま有効化できる。Organization単位の課金が発生する |
+>
+> **有効化するまでの間の運用**
+>
+> - Rule 1・2（mainで直接開発しない / 直接Pushしない）は **文書上のルール** として運用します
+> - README・`docs/02-rules.md`・`exercises/01-clone-to-pr.md` には、
+>   「保護されていないので直接Pushしないこと」を明記済みです
+> - 実習1の Step 11.5（直接Pushが拒否されることの確認）は **スキップする**手順に変更済みです。
+>   有効化した際は、これらの記述を元に戻してください
+> - `main` に誤ってPushされた場合に備え、定期的にバックアップを取っておくと安全です
+
+有効化できるようになったら、以下の手順で設定します。
 
 Settings → Branches → Add branch protection rule
 
@@ -107,8 +135,9 @@ gh api -X PUT repos/Lumos-Programming/github-practice/branches/main/protection \
 JSON
 ```
 
-> ⚠️ **Private Repositoryの場合、プランによってBranch Protection / Rulesets が使えないことがあります。**
+> ⚠️ **Private Repositoryの場合、プランによってBranch Protection / Rulesets が使えません。**
 > 設定画面に項目が出ない場合は、Repositoryの可視性かOrganizationのプランを確認してください。
+> （現在このRepositoryが該当します。上の「⛔ 現在は設定できません」を参照）
 > どうしても使えない場合、Rule 1・2は「文書上のルール」として運用し、
 > 実習1のStep 11.5（直接Pushが拒否されることの確認）はスキップしてください。
 
