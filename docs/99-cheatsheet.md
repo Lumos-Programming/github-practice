@@ -80,6 +80,9 @@ git push -u origin feature/xxx
 | `git reset --soft HEAD~1` | Commitだけ取り消す（変更は残る） |
 | `git reset --hard HEAD~1` | Commitも変更も捨てる ⚠️⚠️ |
 
+> Windows（PowerShell）では `stash@{0}` / `HEAD@{1}` のような `@{ }` を含む指定は
+> `"stash@{0}"` のように引用符で囲んでください（[03 Setup](03-setup.md#7-windowspowershellを使う場合の注意)）。
+
 ## 一時退避
 
 | コマンド | 意味 |
