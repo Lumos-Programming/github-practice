@@ -116,8 +116,13 @@ stash@{0}: WIP on training/taro-stash: 8f2c1ab Add Taro training profile
 中身を見ることもできます。
 
 ```bash
-git stash show -p stash@{0}
+git stash show -p "stash@{0}"
 ```
+
+> ⚠️ **Windows（PowerShell）の場合は `"stash@{0}"` のように引用符で囲んでください。**
+> 囲まないと `@{` がPowerShell自身の記法として解釈され、エラーになります。
+> 引用符はmacOS / Linux / Git Bash でもそのまま動くので、常に付けて構いません。
+> 詳細は [03 Setup の「Windows（PowerShell）を使う場合の注意」](../docs/03-setup.md#7-windowspowershellを使う場合の注意) を参照してください。
 
 ---
 

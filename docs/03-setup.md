@@ -107,7 +107,28 @@ git config --global core.autocrlf input
 
 ---
 
-## 7. GitHubへの認証
+## 7. Windows（PowerShell）を使う場合の注意
+
+PowerShellでは `@{` が **PowerShell自身の記法** として解釈されます。
+そのため、`stash@{0}` や `HEAD@{1}` のような書き方をそのまま実行すると、
+Gitに届く前にPowerShellがエラーにします。
+
+```powershell
+git stash show -p stash@{0}     # ❌ PowerShellではエラーになる
+git stash show -p "stash@{0}"   # ✅ 引用符で囲む
+```
+
+同じ理由で `git reset --hard "HEAD@{1}"` も引用符が必要です。
+
+> 引用符を付けた書き方は macOS / Linux / Git Bash でもそのまま動きます。
+> **`@{ }` が出てきたら常に引用符で囲む** と覚えておけば安全です。
+
+PowerShellの挙動で悩みたくない場合は、Git for Windows に同梱の
+**Git Bash** を使うと、この資料のコマンドをそのまま実行できます。
+
+---
+
+## 8. GitHubへの認証
 
 Cloneやpush時に認証を求められます。おすすめは [GitHub CLI](https://cli.github.com/) です。
 

@@ -213,9 +213,13 @@ git reflog
 ## Step 13: 復旧してみる
 
 ```bash
-git reset --hard HEAD@{1}
+git reset --hard "HEAD@{1}"
 git log --oneline
 ```
+
+> ⚠️ **Windows（PowerShell）の場合は `"HEAD@{1}"` のように引用符で囲んでください。**
+> `stash@{0}` と同じ理由です。詳細は
+> [03 Setup の「Windows（PowerShell）を使う場合の注意」](../docs/03-setup.md#7-windowspowershellを使う場合の注意) を参照してください。
 
 **戻ってきました。**
 

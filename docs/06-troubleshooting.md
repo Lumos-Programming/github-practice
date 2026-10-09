@@ -88,6 +88,18 @@ git merge --abort
 
 Merge開始前の状態に戻ります。
 
+### PowerShellで `stash@{0}` や `HEAD@{1}` がエラーになる
+
+PowerShellは `@{` を自分の記法として解釈します。引用符で囲んでください。
+
+```powershell
+git stash show -p "stash@{0}"
+git reset --hard "HEAD@{1}"
+```
+
+引用符を付けた形は macOS / Linux / Git Bash でもそのまま動きます。
+詳細は [03 Setup](03-setup.md#7-windowspowershellを使う場合の注意) を参照してください。
+
 ### 何が起きたか分からない / 作業を失ったかもしれない
 
 ```bash
